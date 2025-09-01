@@ -62,6 +62,7 @@ export default defineConfig([
       'eslint.config.js',
       '**/vite.config.ts',
       'devvit.config.ts',
+      'src/shared-constants.ts',
     ],
     languageOptions: {
       parserOptions: {

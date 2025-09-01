@@ -1,6 +1,6 @@
 import express from 'express';
 import { createServer, getServerPort } from '@devvit/web/server';
-import { internalRouter } from './router/router';
+import { internalRouter, redisRouter } from './router/router';
 
 const app = express();
 
@@ -13,6 +13,7 @@ app.use(express.text());
 
 // Internal routes
 app.use('/internal', internalRouter);
+app.use('/api/redis', redisRouter);
 
 // Get port from environment variable with fallback
 const port = getServerPort();
