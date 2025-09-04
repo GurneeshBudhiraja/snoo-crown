@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createPost } from '../core/post';
-import { context } from '@devvit/web/server';
+import { context, reddit } from '@devvit/web/server';
 
 const router = Router();
 
@@ -22,7 +22,24 @@ router.post('/on-app-install', async (_req, res): Promise<void> => {
 
 router.post('/menu/post-create', async (_req, res): Promise<void> => {
   try {
-    const post = await createPost();
+    const post = await reddit.submitCustomPost({
+      subredditName: context.subredditName!,
+      title: 'My Interactive Post',
+      splash: {
+        appDisplayName: "Snoo's Crown",
+        backgroundUri: 'splash-background.jpeg',
+        buttonLabel: "Let's Go!",
+        entry: 'src/client/index.html',
+        description: "Snoo's Crown",
+        heading: 'Welcome to the Game!',
+      },
+      postData: {
+        gameState: 'initial',
+        score: 0,
+      },
+    });
+
+    // const post = await createPost();
 
     res.json({
       navigateTo: `https://reddit.com/r/${context.subredditName}/comments/${post.id}`,

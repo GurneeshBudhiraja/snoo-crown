@@ -1,13 +1,9 @@
-import { context } from '@devvit/web/client';
-import { USER_POST_KEY_SUFFIX } from '../shared/shared-constants';
-import { useState } from 'react';
-import GameSetup from './pages/GameSetup';
+import React, { useState } from 'react';
+import { HomePage } from './pages/page';
+
+export type ApplicationPage = 'home';
 
 export const App = () => {
-  const [completePost, setCompletePost] = useState(false);
-  return (
-    <div className="">
-      {!completePost ? <GameSetup setCompletePost={setCompletePost} /> : <> </>}
-    </div>
-  );
+  const [currentPage, setCurrentPage] = useState<ApplicationPage>('home');
+  return <React.Fragment>{currentPage === 'home' && <HomePage />}</React.Fragment>;
 };

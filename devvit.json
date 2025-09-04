@@ -13,7 +13,9 @@
     "dir": "dist/server",
     "entry": "index.cjs"
   },
-  "media": {},
+  "media": {
+    "dir": "src/client/public"
+  },
   "menu": {
     "items": [
       {
@@ -29,6 +31,6 @@
     "onAppInstall": "/internal/on-app-install"
   },
   "dev": {
-    "subreddit": "snoo_crown_dev"
+    "subreddit": "snoo_crown"
   }
 }

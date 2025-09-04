@@ -1,5 +1,43 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'game';
+  src: url('/fonts/game.otf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ibm-plex';
+  src: url('/fonts/ibm-plex.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  /* Fonts */
+  --font-game: 'game', system-ui;
+  --font-ibm: 'ibm-plex', system-ui;
+  /* Colors */
+  --color-game-peach: #ffa69e;
+  --color-game-orange: #f63e02;
+  --color-game-black: #252422;
+  --color-game-bright-yellow: #fed700;
+  --color-game-sky: #1bb2ff;
+  --color-game-green: #95e214;
+}
+
+@theme inline {
+  /* Custom theme variables */
+  /* Font */
+  --font-game: var(--font-game);
+  --font-ibm: var(--font-ibm);
+  /* Colors */
+  --color-game-orange: var(--color-game-orange);
+  --color-game-black: var(--color-game-black);
+  --color-game-peach: var(--color-game-peach);
+  --color-game-bright-yellow: var(--color-game-bright-yellow);
+  --color-game-sky: var(--color-game-sky);
+  --color-game-green: var(--color-game-green);
+}
+
 @layer base {
   * {
     @apply box-border p-0 m-0;
