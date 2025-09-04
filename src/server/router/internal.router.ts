@@ -23,19 +23,13 @@ router.post('/on-app-install', async (_req, res): Promise<void> => {
 router.post('/menu/post-create', async (_req, res): Promise<void> => {
   try {
     const post = await reddit.submitCustomPost({
-      subredditName: context.subredditName!,
-      title: 'My Interactive Post',
+      subredditName: context.subredditName,
+      title: "Snoo's Crown",
       splash: {
         appDisplayName: "Snoo's Crown",
-        backgroundUri: 'splash-background.jpeg',
-        buttonLabel: "Let's Go!",
-        entry: 'src/client/index.html',
-        description: "Snoo's Crown",
-        heading: 'Welcome to the Game!',
-      },
-      postData: {
-        gameState: 'initial',
-        score: 0,
+        backgroundUri: '',
+        buttonLabel: "Welcome to Snoo's Crown",
+        heading: "Snoo's Crown",
       },
     });
 
