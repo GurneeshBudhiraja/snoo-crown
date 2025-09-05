@@ -3,10 +3,10 @@ import GameLogo from '../assets/game-logo.png';
 import { MenuOptions } from '../components/MenuOptions';
 import { ApplicationPage } from '../App';
 import * as motion from 'motion/react-client';
-import MuteSoundIcon from '../assets/icons/mute-sound-icon.png';
-import UnmuteSoundIcon from '../assets/icons/sound-icon.png';
-import { useEffect, useState } from 'react';
+import MuteSoundIcon from '../assets/icons/mute-icon.png';
+import SpeakerIcon from '../assets/icons/speaker-icon.png';
 import useSound from '../hooks/useSound';
+import { GameButton } from '../components/index';
 
 type HomePageProps = {
   onNavigate: (page: ApplicationPage) => void;
@@ -40,20 +40,21 @@ export function SnooCrownBoardImage() {
   );
 }
 
-export function SoundOptions() {
-  const [isMuted, setIsMuted] = useState(false);
-  const { playGameThemeSong } = useSound();
+export function SoundButton() {
+  const { isGameThemeSongPlaying, toggleGameThemeSong, playButtonClickSound } = useSound();
+
   return (
     <div
       className="absolute bottom-2 left-2 w-14 aspect-square border-2 border-game-orange rounded-full bg-zinc-950 shadow-[inset_0px_0px_17px_0px_#ffffff47] cursor-pointer"
       onClick={() => {
-        setIsMuted(!isMuted);
+        void playButtonClickSound();
+        void toggleGameThemeSong();
       }}
     >
-      {isMuted ? (
+      {!isGameThemeSongPlaying ? (
         <img src={MuteSoundIcon} alt="Mute Sound" />
       ) : (
-        <img src={UnmuteSoundIcon} alt="Unmute Sound" />
+        <img src={SpeakerIcon} alt="Unmute Sound" />
       )}
     </div>
   );
@@ -64,10 +65,9 @@ function HomePage({ onNavigate }: HomePageProps) {
     <div className="min-h-screen w-full relative text-gray-800 flex flex-col items-center justify-center ">
       {/* Image of Snoo holding the welcome board */}
       <SnooCrownBoardImage />
-      {/* Game options */}
-      <div>
-        <SoundOptions />
-      </div>
+      {/* Sound option */}
+      <SoundButton />
+      <GameButton text="Today's Crossword" />
     </div>
   );
 }

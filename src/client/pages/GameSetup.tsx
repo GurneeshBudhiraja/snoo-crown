@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import GridSelector from '../components/game-setup/GridSelector';
 import GridDesign from '../components/game-setup/GridDesign';
-import { Button } from '../components/Button';
+import { GameButton } from '../components/index';
 import { ApplicationPage } from '../App';
 
 type GameSetupProps = {
@@ -16,13 +16,13 @@ function GameSetup({ onNavigate }: GameSetupProps) {
     <div className="min-h-screen bg-gradient-to-br from-[var(--color-game-peach)] via-white to-[var(--color-game-sky)] flex flex-col items-center justify-center p-8">
       <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/20 w-full max-w-md">
         <div className="mb-6">
-          <Button
+          {/* <GameButton
             onClick={() => onNavigate('home')}
             variant="secondary"
             className="text-sm py-2 px-4"
           >
             ← Back to Home
-          </Button>
+          </GameButton> */}
         </div>
 
         {step === 0 && <GridSelector setStep={setStep} setGridSelection={setGridSelection} />}

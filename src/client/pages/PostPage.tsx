@@ -1,4 +1,4 @@
-import { Button } from '../components/Button';
+import { GameButton } from '../components/index';
 import { ApplicationPage } from '../App';
 
 type PostPageProps = {
@@ -23,9 +23,9 @@ function PostPage({ onNavigate }: PostPageProps) {
         </p>
 
         <div className="space-y-4">
-          <Button onClick={() => onNavigate('home')} variant="secondary" className="w-full">
+          {/* <Button onClick={() => onNavigate('home')} variant="secondary" className="w-full">
             ← Back to Home
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

@@ -11,24 +11,40 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'inter';
+  src: url('/fonts/inter.ttf') format('truetype');
+  font-display: swap;
+}
+
 :root {
   /* Fonts */
   --font-game: 'game', system-ui;
-  --font-ibm: 'ibm-plex', system-ui;
+  --font-game-ibm: 'ibm-plex', system-ui;
+  --font-game-inter: 'inter', system-ui;
+
   /* Colors */
   --color-game-peach: #ffa69e;
   --color-game-orange: #f63e02;
   --color-game-black: #252422;
   --color-game-bright-yellow: #fed700;
   --color-game-sky: #1bb2ff;
-  --color-game-green: #95e214;
+  --color-game-green: #68f1a4;
+  --color-game-cream: #fdf4db;
+  --color-game-pale-yellow: #f7c481;
+  --color-game-red: #ee4b61;
+  --color-game-gray: #e8f0ff;
+  --color-game-light: #fffdf9;
+  --color-game-dark: #111827;
+  --color-game-dark-gray: #1f2938;
 }
 
 @theme inline {
   /* Custom theme variables */
   /* Font */
   --font-game: var(--font-game);
-  --font-ibm: var(--font-ibm);
+  --font-game-ibm: var(--font-game-ibm);
+  --font-game-inter: var(--font-game-inter);
   /* Colors */
   --color-game-orange: var(--color-game-orange);
   --color-game-black: var(--color-game-black);
@@ -36,10 +52,23 @@
   --color-game-bright-yellow: var(--color-game-bright-yellow);
   --color-game-sky: var(--color-game-sky);
   --color-game-green: var(--color-game-green);
+  --color-game-cream: var(--color-game-cream);
+  --color-game-pale-yellow: var(--color-game-pale-yellow);
+  --color-game-red: var(--color-game-red);
+  --color-game-gray: var(--color-game-gray);
+  --color-game-light: var(--color-game-light);
+  --color-game-dark: var(--color-game-dark);
+  --color-game-dark-gray: var(--color-game-dark-gray);
+  /* Shadows */
+  /* GameButton shadow */
+  --shadow-game-button: 6px 8px 0 0 var(--color-game-dark);
 }
 
 @layer base {
   * {
-    @apply box-border p-0 m-0;
+    @apply box-border p-0 m-0 select-none;
+  }
+  body {
+    @apply bg-game-light;
   }
 }

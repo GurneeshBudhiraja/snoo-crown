@@ -1,4 +1,4 @@
-import { Button } from './Button';
+import { GameButton } from './index';
 
 type MenuOptionsProps = {
   onPlay: () => void;
@@ -9,17 +9,17 @@ type MenuOptionsProps = {
 export function MenuOptions({ onPlay, onCreate, onPost }: MenuOptionsProps) {
   return (
     <div className="space-y-6 max-w-md mx-auto">
-      <Button onClick={onPlay} variant="primary" className="w-full text-2xl py-6">
+      {/* <GameButton onClick={onPlay} variant="primary" className="w-full text-2xl py-6">
         Play
-      </Button>
+      </GameButton>
 
-      <Button onClick={onCreate} variant="secondary" className="w-full text-2xl py-6">
+      <GameButton onClick={onCreate} variant="secondary" className="w-full text-2xl py-6">
         Create
-      </Button>
+      </GameButton>
 
-      <Button onClick={onPost} variant="primary" className="w-full text-2xl py-6">
+      <GameButton onClick={onPost} variant="primary" className="w-full text-2xl py-6">
         Post
-      </Button>
+      </GameButton> */}
     </div>
   );
 }
