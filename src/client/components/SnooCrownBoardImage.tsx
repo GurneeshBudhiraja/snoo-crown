@@ -4,7 +4,7 @@ import { GameLogo } from '../assets/assets';
 export default function SnooCrownBoardImage() {
   return (
     <motion.div
-      className="absolute -bottom-14 right-1/2 translate-x-1/2  2xs:right-[19%] md:translate-x-0 md:-right-5 h-64 2xs:h-72 sm:h-80 lg:h-80 aspect-square"
+      className="absolute -bottom-10 2xs:-bottom-14 right-1/2 translate-x-1/2  2xs:right-[19%] md:translate-x-0 md:-right-5 h-64 2xs:h-72 sm:h-80 lg:h-80 aspect-square"
       initial={{
         opacity: 0,
         scale: 0.7,
