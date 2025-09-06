@@ -69,6 +69,13 @@
     @apply box-border p-0 m-0 select-none;
   }
   body {
-    @apply bg-game-light;
+    @apply bg-game-cream font-game-ibm;
+    scrollbar-gutter: stable;
+  }
+}
+
+@layer utilities {
+  .game-button-border {
+    @apply border-4 border-black rounded-md;
   }
 }
