@@ -1,5 +1,6 @@
 import React from 'react';
 import useSound from '../hooks/useSound';
+import { cn } from '../util';
 
 export type GameButtonProps = {
   text: string;
@@ -26,7 +27,22 @@ export default function GameButton({
     <>
       <button
         type="button"
-        className={`relative p-2 text-2xl tracking-wide transition duration-75 ease-linear disabled:cursor-not-allowed font-bold font-ibm border-4 border-black active:scale-95 shadow-game-button active:shadow-none active:translate-y-1 active:translate-x-3 focus:outline-none focus-visible:ring focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream cursor-pointer max-w-2xs w-full rounded-md   ${className}`}
+        className={cn(
+          // layout & sizing
+          'relative max-w-2xs w-full p-2 rounded-md',
+          // typography
+          'text-2xl tracking-wide font-bold font-ibm',
+          // borders
+          'border-4 border-black',
+          // shadows
+          'shadow-game-button active:shadow-none',
+          // transitions & animation
+          'transition duration-75 ease-linear active:scale-95 active:translate-y-1 active:translate-x-3',
+          // state & accessibility
+          'focus:outline-none focus-visible:ring focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream',
+          'disabled:cursor-not-allowed cursor-pointer',
+          className
+        )}
         onClick={handleClick}
         disabled={disabled}
       >

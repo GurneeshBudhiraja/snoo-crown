@@ -34,7 +34,7 @@ function HomePage({ onNavigate }: HomePageProps) {
     },
   ];
   return (
-    <div className="h-full w-full relative text-gray-800 p-10 flex overflow-hidden">
+    <div className="h-full w-full relative text-gray-800 p-10 flex overflow-clip">
       <AnimatePresence>
         <SnooCrownBoardImage />
       </AnimatePresence>
@@ -42,7 +42,7 @@ function HomePage({ onNavigate }: HomePageProps) {
       {/* Sound option */}
       <SoundButton />
       {/* menu options */}
-      <div className="flex flex-col max-w-sm mx-auto items-center justify-start gap-10 flex-1 py-12 lg:py-20">
+      <div className="flex flex-col max-w-sm mx-auto items-center justify-start 2xs:justify-center gap-5  2xs:gap-10 xs:gap-10 sm:gap-6 flex-1 py-1 2xs:-mt-16  xs:py-12 sm:-mt-3 lg:py-0">
         {MENU_OPTIONS.map((option) => (
           <GameButton
             key={option.text}
