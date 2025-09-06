@@ -1,17 +1,9 @@
-import { useState, useRef } from 'react';
-import { HomePage, RulesPage } from './pages/page';
+import { HomePage, LeaderboardPage, RulesPage } from './pages/page';
 import { AnimatePresence, motion } from 'motion/react';
-
-export type ApplicationPage = 'home' | 'rules';
+import useApplicationContext from './hooks/useApplicationContext';
 
 export const App = () => {
-  const [currentPage, setCurrentPage] = useState<ApplicationPage>('home');
-  const isInitialRender = useRef(true);
-
-  const navigateTo = (page: ApplicationPage) => {
-    isInitialRender.current = false;
-    setCurrentPage(page);
-  };
+  const { currentPage } = useApplicationContext();
 
   return (
     <div className="flex justify-center items-center h-screen overflow-clip px-2 lg:px-0">
@@ -20,8 +12,8 @@ export const App = () => {
           {/* HomePage - Always present, scales when RulesPage is active */}
           <motion.div
             animate={{
-              scale: currentPage === 'rules' ? 0.95 : 1,
-              y: currentPage === 'rules' ? -20 : 0,
+              scale: currentPage !== 'home' ? 0.95 : 1,
+              y: currentPage !== 'home' ? -20 : 0,
             }}
             transition={{
               duration: 0.2,
@@ -29,7 +21,7 @@ export const App = () => {
             }}
             className="w-full h-full"
           >
-            <HomePage onNavigate={navigateTo} />
+            <HomePage />
           </motion.div>
 
           {/* RulesPage - Slides in from bottom like a card */}
@@ -68,7 +60,48 @@ export const App = () => {
                   perspective: '1000px',
                 }}
               >
-                <RulesPage onNavigate={navigateTo} />
+                <RulesPage />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* LeaderboardPage */}
+          <AnimatePresence>
+            {currentPage === 'leaderboard' && (
+              <motion.div
+                key="leaderboard"
+                initial={{
+                  y: '100%',
+                  scale: 1.2,
+                  opacity: 0,
+                  rotateX: 15,
+                }}
+                animate={{
+                  y: 0,
+                  scale: 1,
+                  opacity: 1,
+                  rotateX: 0,
+                }}
+                exit={{
+                  y: '100%',
+                  scale: 0.9,
+                  opacity: 0,
+                  rotateX: 15,
+                  transition: {
+                    duration: 0.2,
+                  },
+                }}
+                transition={{
+                  duration: 0.2,
+                  ease: [0.4, 0.0, 0.2, 1],
+                }}
+                className="absolute inset-0 w-full h-full z-10"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  perspective: '1000px',
+                }}
+              >
+                <LeaderboardPage />
               </motion.div>
             )}
           </AnimatePresence>

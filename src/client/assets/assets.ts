@@ -2,6 +2,9 @@ export { default as GameLogo } from './game-logo.png';
 export { default as MuteSoundIcon } from './icons/mute-icon.png';
 export { default as SpeakerIcon } from './icons/speaker-icon.png';
 export { default as SnooFacePNG } from './snoo-face.png';
+export { default as LeaderboardSnoo } from './leaderboard-snoo.png';
+export { default as HomeIcon } from './icons/home-icon.png';
+export { default as SnooRules } from './snoo-rules.png';
 
 const SnooFaceSVG = './snoo-face.svg';
 export { SnooFaceSVG };

@@ -1,4 +1,3 @@
-import React from 'react';
 import useSound from '../hooks/useSound';
 import { cn } from '../util';
 

@@ -1,13 +1,10 @@
-import { ApplicationPage } from '../App';
 import { GameButtonProps } from '../components/GameButton';
-import { GameButton, SnooCrownBoardImage, SoundButton } from '../components/index';
+import { GameButton, GameOptionsHeader, SnooCrownBoardImage } from '../components/index';
 import { AnimatePresence } from 'motion/react';
+import useApplicationContext from '../hooks/useApplicationContext';
 
-type HomePageProps = {
-  onNavigate: (page: ApplicationPage) => void;
-};
-
-function HomePage({ onNavigate }: HomePageProps) {
+function HomePage() {
+  const { setCurrentPage } = useApplicationContext();
   const MENU_OPTIONS: GameButtonProps[] = [
     // Daily Snoo Challenge
     {
@@ -18,6 +15,7 @@ function HomePage({ onNavigate }: HomePageProps) {
     {
       text: 'Leaderboard',
       className: 'bg-game-green hover:bg-game-green/85',
+      onClick: () => setCurrentPage('leaderboard'),
     },
     // Create And Share
     {
@@ -28,21 +26,20 @@ function HomePage({ onNavigate }: HomePageProps) {
     {
       text: 'Crown Rules',
       className: 'bg-game-peach hover:bg-game-peach/85',
-      onClick() {
-        onNavigate('rules');
-      },
+      onClick: () => setCurrentPage('rules'),
     },
   ];
+
   return (
     <div className="h-full w-full relative text-gray-800 p-10 flex overflow-clip">
+      {/* Image of Snoo holding the welcome board */}
       <AnimatePresence>
         <SnooCrownBoardImage />
       </AnimatePresence>
-      {/* Image of Snoo holding the welcome board */}
-      {/* Sound option */}
-      <SoundButton />
+
+      <GameOptionsHeader showSoundButton={true} />
       {/* menu options */}
-      <div className="flex flex-col max-w-sm mx-auto items-center justify-start 2xs:justify-center gap-5  2xs:gap-10 xs:gap-10 sm:gap-6 flex-1 py-1 2xs:-mt-16  xs:py-12 sm:-mt-3 lg:py-0">
+      <div className="flex flex-col max-w-sm mx-auto items-center justify-start 2xs:justify-center gap-5  2xs:gap-10 xs:gap-10 sm:gap-6 flex-1 py-1 2xs:-mt-16  xs:py-12 sm:-mt-3 lg:py-0 overflow-y-auto">
         {MENU_OPTIONS.map((option) => (
           <GameButton
             key={option.text}

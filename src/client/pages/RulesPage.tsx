@@ -1,11 +1,8 @@
 import React from 'react';
-import { ApplicationPage } from '../App';
-import { GameButton } from '../components';
+import { GameButton, GameOptionsHeader, SnooLeaderboardImage, SnooRulesImage } from '../components';
 import { SnooFaceSVG } from '../assets/assets';
-
-type RulesPageProps = {
-  onNavigate: (page: ApplicationPage) => void;
-};
+import useApplicationContext from '../hooks/useApplicationContext';
+import { AnimatePresence } from 'motion/react';
 
 const SnooFaceIcon = () => (
   <img
@@ -30,28 +27,35 @@ const rules: React.ReactNode[] = [
   </>,
 ];
 
-const RulesPage: React.FC<RulesPageProps> = ({ onNavigate }) => (
-  <div className="fixed inset-0 flex flex-col bg-game-cream p-0 m-0 z-10 rounded-md ">
-    <div className="flex-1 w-full flex flex-col items-center justify-start 2xs:justify-center overflow-y-auto gap-8 p-4 sm:p-8">
-      <div className="text-center p-2 rounded-md game-button-border text-3xl font-bold text-game-black bg-game-pale-yellow font-game-ibm tracking-wide mt-4 sm:mt-0">
-        How To Play
-      </div>
-      <div className="max-w-lg w-full space-y-6 text-game-black font-game-inter font-medium">
-        {rules.map((rule, idx) => (
-          <div className="text-left" key={idx}>
-            <p className="text-lg leading-relaxed">{rule}</p>
-          </div>
-        ))}
-      </div>
-      <div className="w-full flex justify-center mb-4 sm:mb-0">
-        <GameButton
-          text="Back to Home"
-          className="bg-game-peach hover:bg-game-peach/85 text-game-dark max-w-xs"
-          onClick={() => onNavigate('home')}
-        />
+const RulesPage = () => {
+  const { setCurrentPage } = useApplicationContext();
+  return (
+    <div className="fixed inset-0 flex flex-col bg-game-cream p-0 m-0 z-10 rounded-lg overflow-clip">
+      <AnimatePresence>
+        <SnooRulesImage />
+      </AnimatePresence>
+      <GameOptionsHeader showHomeButton={true} />
+      <div className="flex-1 w-full flex flex-col items-center justify-start sm:justify-center overflow-y-auto gap-8 p-4 sm:p-8">
+        <div className="text-center p-2 rounded-md game-button-border text-3xl font-bold text-game-black bg-game-pale-yellow font-game-ibm tracking-wide mt-4 sm:mt-0">
+          How To Play
+        </div>
+        <div className="max-w-lg w-full space-y-2 2xs:space-y-6 text-game-black font-game-inter font-medium">
+          {rules.map((rule, idx) => (
+            <div className="text-left" key={idx}>
+              <p className="text-lg leading-relaxed">{rule}</p>
+            </div>
+          ))}
+        </div>
+        <div className="w-full flex justify-center mb-4 sm:mb-0">
+          <GameButton
+            text="Back to Home"
+            className="bg-game-peach hover:bg-game-peach/85 text-game-dark max-w-xs"
+            onClick={() => setCurrentPage('home')}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default RulesPage;

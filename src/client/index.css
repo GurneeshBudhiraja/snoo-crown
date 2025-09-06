@@ -66,6 +66,7 @@
   /* breakpoints */
   --breakpoint-xs: 48rem;
   --breakpoint-2xs: 32rem;
+  
 }
 
 @layer base {
