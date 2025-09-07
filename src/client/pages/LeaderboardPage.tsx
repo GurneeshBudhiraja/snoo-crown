@@ -10,39 +10,7 @@ export type LeaderboardStats = {
 };
 
 function LeaderboardPage() {
-  const [leaderboardStats, setLeaderboardStats] = useState<LeaderboardStats[]>([]);
-  // TODO: REPLACE WITH ACTUAL API CALL IN PRODUCTION
-  // Imitating the API call
-  async function getLeaderboardStats() {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const seed = Math.floor(Math.random() * 11);
-    if (seed % 2 === 0) {
-      setLeaderboardStats([
-        {
-          userName: 'John Doe',
-          score: 100,
-          date: Date.now(),
-        },
-        {
-          userName: 'Jane Doe',
-          score: 90,
-          date: Date.now(),
-        },
-        {
-          userName: 'Jim Doe',
-          score: 80,
-          date: Date.now(),
-        },
-      ]);
-    } else {
-      setLeaderboardStats([]);
-    }
-  }
-
-  useEffect(() => {
-    void getLeaderboardStats();
-  }, []);
-
+  const [scoreInput, setScoreInput] = useState();
   return (
     <div className="fixed inset-0 flex flex-col bg-game-cream p-0 m-0 z-10 rounded-lg overflow-clip">
       <GameOptionsHeader showHomeButton={true} />
