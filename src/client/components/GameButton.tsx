@@ -38,7 +38,7 @@ export default function GameButton({
           // transitions & animation
           'transition duration-75 ease-linear active:scale-95 active:translate-y-1 active:translate-x-3',
           // state & accessibility
-          'focus:outline-none focus-visible:ring focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream',
+          'focus:outline-none focus-visible:ring-4 focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream',
           'disabled:cursor-not-allowed cursor-pointer',
           className
         )}

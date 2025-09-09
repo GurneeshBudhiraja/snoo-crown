@@ -66,16 +66,18 @@
   /* breakpoints */
   --breakpoint-xs: 48rem;
   --breakpoint-2xs: 32rem;
-  
 }
 
 @layer base {
   * {
     @apply box-border p-0 m-0 select-none;
   }
+  html,
+  body {
+    height: 100%;
+  }
   body {
     @apply bg-game-cream font-game-ibm;
-    scrollbar-gutter: stable;
   }
 }
 
