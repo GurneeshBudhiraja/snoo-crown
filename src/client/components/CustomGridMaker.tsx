@@ -9,7 +9,7 @@ const DEFAULT_COLOR_PALETTE = [
   { name: 'Green', value: 'green', shortcutKey: 'G' },
   { name: 'Sky', value: 'sky', shortcutKey: 'S' },
   { name: 'Peach', value: 'peach', shortcutKey: 'P' },
-  { name: 'Bright Yellow', value: 'bright-yellow', shortcutKey: 'YP' },
+  { name: 'Bright Yellow', value: 'bright-yellow', shortcutKey: 'Y' },
   { name: 'Pale Yellow', value: 'pale-yellow', shortcutKey: 'C' },
   { name: 'Red', value: 'red', shortcutKey: 'R' },
   { name: 'Orange', value: 'orange', shortcutKey: 'O' },

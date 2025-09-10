@@ -2,7 +2,7 @@ import { CustomGridMaker, GameButton, GameOptionsHeader } from '../components';
 import { cn } from '../util';
 import { useState } from 'react';
 import useSound from '../hooks/useSound';
-import { Snoo4x4, Snoo5x5, Snoo6x6, Snoo7x7, Snoo8x8, Snoo9x9 } from '../assets/assets';
+import { Snoo4x4, Snoo5x5, Snoo6x6, Snoo7x7 } from '../assets/assets';
 import { CellColor } from '../components/CustomGridMaker';
 
 export type GridOption = {
@@ -48,7 +48,7 @@ function GridOptionComponent({
   return (
     <button
       className={cn(
-        'group relative min-h-28 2xs:min-h-36 game-button-border shadow-game-button flex items-center overflow-clip py-2 px-2',
+        'group relative min-h-0 game-button-border shadow-game-button flex items-center overflow-clip p-4 2xs:p-2',
         'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream',
         'transition duration-75 ease-linear cursor-pointer',
         'active:scale-95 active:translate-y-1 active:translate-x-3 active:shadow-none',
@@ -71,7 +71,7 @@ function GridOptionComponent({
       )}
 
       {/* Level image */}
-      <div className="rounded-lg border-4 border-game-dark shadow-md w-1/3 2xs:w-1/2 h-full overflow-clip">
+      <div className="rounded-lg border-4 border-game-dark shadow-md w-1/3 2xs:w-1/2 h-full overflow-clip aspect-square">
         {option.image && (
           <img
             src={option.image}
@@ -95,9 +95,9 @@ function GridOptionComponent({
 
 function CreateAndSharePage() {
   // By default, none is selected
-  const [selectedGridIndex, setSelectedGridIndex] = useState<number | null>(0);
+  const [selectedGridIndex, setSelectedGridIndex] = useState<number | null>(null);
   // Track what step the user is on
-  const [currentStepIndex, setCurrentStepIndex] = useState(1);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   // Track if all cells are filled
   const [isAllCellsFilled, setIsAllCellsFilled] = useState(false);
   const [cellColors, setCellColors] = useState<CellColor[][]>(() => {
@@ -138,7 +138,7 @@ function CreateAndSharePage() {
         <div className="w-full max-w-2xs mx-auto 2xs:max-w-xl md:max-w-2xl flex-1 flex flex-col min-h-0">
           {currentStepIndex === 0 ? (
             <div className="flex h-full  justify-center items-start lg:items-center flex-1 overflow-y-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-3 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 2xs:gap-4 p-3 w-full">
                 {GRID_OPTIONS.map((option, idx) => (
                   <GridOptionComponent
                     key={option.size}
