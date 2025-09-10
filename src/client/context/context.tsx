@@ -26,7 +26,7 @@ export default function ApplicationContextProvider({ children }: { children: Rea
   const [currentPage, setCurrentPage] = useState<ApplicationPage>('home');
   const [isCustomPost, setIsCustomPost] = useState<boolean>(false);
   const [isPostLoading, setIsPostLoading] = useState<boolean>(true);
-  const PAUSE_TIME = 1000;
+  const PAUSE_TIME = 5000;
 
   useEffect(() => {
     async function pauseAPI() {
