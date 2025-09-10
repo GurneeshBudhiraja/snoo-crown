@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GridOption } from '../pages/CreateAndSharePage';
 import { cn } from '../util';
 import useSound from '../hooks/useSound';
@@ -23,7 +23,7 @@ const DEFAULT_COLOR_PALETTE = [
   { name: 'Orange', value: 'bg-game-orange', border: 'border-game-dark', isCustom: false },
 ];
 
-type CellColor = string | null;
+export type CellColor = string | null;
 
 function GenerateGrid({
   gridSize,
@@ -81,20 +81,19 @@ function GenerateGrid({
 function CustomGridMaker({
   selectedGridIndex,
   setCurrentStepIndex,
+  cellColors,
+  setCellColors,
   isAllCellsFilled,
   setIsAllCellsFilled,
 }: {
   selectedGridIndex: GridOption | undefined;
   setCurrentStepIndex: (step: number) => void;
+  cellColors: CellColor[][];
+  setCellColors: React.Dispatch<React.SetStateAction<CellColor[][]>>;
   isAllCellsFilled: boolean;
   setIsAllCellsFilled: (filled: boolean) => void;
 }) {
   const { playPingSound } = useSound();
-  // Always keep cellColors in sync with selectedGridIndex.size
-  const [cellColors, setCellColors] = useState<CellColor[][]>(() => {
-    const size = selectedGridIndex?.size ?? 0;
-    return Array.from({ length: size }, () => Array.from({ length: size }, () => null));
-  });
 
   // Reset cellColors if grid size changes
   useEffect(() => {

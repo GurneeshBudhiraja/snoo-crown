@@ -4,8 +4,14 @@ import { AnimatePresence } from 'motion/react';
 import useApplicationContext from '../hooks/useApplicationContext';
 
 function HomePage() {
-  const { setCurrentPage } = useApplicationContext();
+  const { setCurrentPage, isPostLoading, isCustomPost } = useApplicationContext();
   const MENU_OPTIONS: GameButtonProps[] = [
+    // Play custom post
+    {
+      text: 'Play Custom Post',
+      className: 'bg-game-light hover:bg-game-light/85',
+      forCustomPost: isCustomPost,
+    },
     // Daily Snoo Challenge
     {
       text: 'Daily Snoo Challenge',
@@ -34,23 +40,30 @@ function HomePage() {
 
   return (
     <div className="h-full w-full relative text-gray-800 p-10 px-4 2xs:px-0 flex overflow-clip polka-dot-dark">
-      {/* Image of Snoo holding the welcome board */}
-      <AnimatePresence>
-        <SnooCrownBoardImage />
-      </AnimatePresence>
+      {isPostLoading ? (
+        <div>Loading....</div>
+      ) : (
+        <>
+          {/* Image of Snoo holding the welcome board */}
+          <AnimatePresence>
+            <SnooCrownBoardImage />
+          </AnimatePresence>
 
-      <GameOptionsHeader showSoundButton={true} />
-      {/* menu options */}
-      <div className="flex flex-col max-w-sm mx-auto items-center justify-start 2xs:justify-center gap-5  2xs:gap-10 xs:gap-10 sm:gap-6 flex-1 py-1 mt-4 2xs:-mt-16  xs:py-12 sm:-mt-3 lg:py-0 overflow-y-auto ">
-        {MENU_OPTIONS.map((option) => (
-          <GameButton
-            key={option.text}
-            text={option.text}
-            className={option.className ?? ''}
-            onClick={option.onClick ?? null}
-          />
-        ))}
-      </div>
+          <GameOptionsHeader showSoundButton={true} />
+          {/* menu options */}
+          <div className="flex flex-col max-w-sm mx-auto items-center justify-start 2xs:justify-center gap-5  2xs:gap-10 xs:gap-10 sm:gap-6 flex-1 py-1 mt-4 2xs:-mt-16  xs:py-12 sm:-mt-3 lg:py-0 overflow-y-auto ">
+            {MENU_OPTIONS.filter((option) => option.forCustomPost !== false).map((option) => (
+              <GameButton
+                key={option.text}
+                text={option.text}
+                className={option.className ?? ''}
+                onClick={option.onClick ?? null}
+                disabled={option.disabled ?? false}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

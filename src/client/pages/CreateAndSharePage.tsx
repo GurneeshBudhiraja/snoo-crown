@@ -3,6 +3,7 @@ import { cn } from '../util';
 import { useState } from 'react';
 import useSound from '../hooks/useSound';
 import { Snoo4x4, Snoo5x5, Snoo6x6, Snoo7x7, Snoo8x8, Snoo9x9 } from '../assets/assets';
+import { CellColor } from '../components/CustomGridMaker';
 
 export type GridOption = {
   size: number;
@@ -107,6 +108,10 @@ function CreateAndSharePage() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   // Track if all cells are filled
   const [isAllCellsFilled, setIsAllCellsFilled] = useState(false);
+  const [cellColors, setCellColors] = useState<CellColor[][]>(() => {
+    const size = selectedGridIndex ?? 0;
+    return Array.from({ length: size }, () => Array.from({ length: size }, () => null));
+  });
 
   // When a grid is selected, trigger the animation to new content
   const handleGridSelect = (idx: number) => {
@@ -155,6 +160,8 @@ function CreateAndSharePage() {
               setIsAllCellsFilled={setIsAllCellsFilled}
               selectedGridIndex={GRID_OPTIONS[selectedGridIndex ?? -1]}
               setCurrentStepIndex={setCurrentStepIndex}
+              cellColors={cellColors}
+              setCellColors={setCellColors}
             />
           )}
         </div>
@@ -177,6 +184,7 @@ function CreateAndSharePage() {
             disabled={!isAllCellsFilled}
             onClick={() => {
               console.log('Sharing the grid');
+              console.log(cellColors);
             }}
             // className="rounded-r-3xl"
             className="w-full bg-game-cream hover:bg-game-cream/85 disabled:hover:bg-game-cream"

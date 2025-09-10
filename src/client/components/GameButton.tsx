@@ -8,6 +8,7 @@ export type GameButtonProps = {
   className?: string;
   disabled?: boolean;
   loading?: boolean;
+  forCustomPost?: boolean;
 };
 
 export default function GameButton({

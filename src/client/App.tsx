@@ -6,7 +6,7 @@ import { ApplicationPage } from './context/context';
 
 export const App = () => {
   const { currentPage } = useApplicationContext();
-  
+
   // Returns the current page component based on the currentPage
   const renderCurrentPage = (currentPage: Exclude<ApplicationPage, 'home'>) => {
     switch (currentPage) {
@@ -21,6 +21,7 @@ export const App = () => {
     }
   };
 
+  
   return (
     <div className="flex justify-center items-center h-screen overflow-clip px-2 lg:px-0">
       <div className="max-w-4xl w-full h-full max-h-[98%] md:max-h-[90%] lg:max-h-[80%] mx-auto flex border-8 lg:border-[8px] border-game-black rounded-2xl relative">
