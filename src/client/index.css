@@ -62,6 +62,7 @@
   /* Shadows */
   /* GameButton shadow */
   --shadow-game-button: 6px 8px 0 0 var(--color-game-dark);
+  --shadow-game-button-sm: 3px 4px 0 0 var(--color-game-dark);
 
   /* breakpoints */
   --breakpoint-xs: 48rem;

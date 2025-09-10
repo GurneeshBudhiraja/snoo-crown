@@ -48,6 +48,7 @@ export const App = () => {
                 className="w-full h-full"
               >
                 <HomePage />
+                {/* <CreateAndSharePage /> */}
               </motion.div>
 
               {/* Renders the current page except for HomePage*/}

@@ -32,16 +32,6 @@ const GRID_OPTIONS: GridOption[] = [
     className: 'bg-game-bright-yellow text-game-dark',
     image: Snoo7x7,
   },
-  {
-    size: 8,
-    className: 'bg-game-pale-yellow text-game-dark',
-    image: Snoo8x8,
-  },
-  {
-    size: 9,
-    className: 'bg-game-red text-game-dark',
-    image: Snoo9x9,
-  },
 ];
 
 // Grid selection component
@@ -58,9 +48,11 @@ function GridOptionComponent({
   return (
     <button
       className={cn(
-        'group relative bg-game-light min-h-28 2xs:min-h-36 game-button-border shadow-game-button flex items-center overflow-clip py-2  px-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream transition duration-75 ease-linear cursor-pointer active:scale-95 active:translate-y-1 active:translate-x-3 active:shadow-none',
+        'group relative min-h-28 2xs:min-h-36 game-button-border shadow-game-button flex items-center overflow-clip py-2 px-2',
+        'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream',
+        'transition duration-75 ease-linear cursor-pointer',
+        'active:scale-95 active:translate-y-1 active:translate-x-3 active:shadow-none',
         option.className,
-
         isActive && 'ring-4 ring-game-orange ring-offset-2 ring-offset-game-cream z-10 shadow-none'
       )}
       aria-pressed={isActive}
@@ -103,9 +95,9 @@ function GridOptionComponent({
 
 function CreateAndSharePage() {
   // By default, none is selected
-  const [selectedGridIndex, setSelectedGridIndex] = useState<number | null>(null);
+  const [selectedGridIndex, setSelectedGridIndex] = useState<number | null>(0);
   // Track what step the user is on
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(1);
   // Track if all cells are filled
   const [isAllCellsFilled, setIsAllCellsFilled] = useState(false);
   const [cellColors, setCellColors] = useState<CellColor[][]>(() => {
@@ -125,6 +117,7 @@ function CreateAndSharePage() {
         showHomeButton={true}
         showBackButton={currentStepIndex > 0}
         onBackButtonClick={() => setCurrentStepIndex(currentStepIndex - 1)}
+        className="flex-row 2xs:flex-col"
       />
 
       {/* Snoo Character */}
@@ -144,15 +137,17 @@ function CreateAndSharePage() {
         {/* Scrollable Grid Options Container */}
         <div className="w-full max-w-2xs mx-auto 2xs:max-w-xl md:max-w-2xl flex-1 flex flex-col min-h-0">
           {currentStepIndex === 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-3 overflow-y-auto flex-1">
-              {GRID_OPTIONS.map((option, idx) => (
-                <GridOptionComponent
-                  key={option.size}
-                  option={option}
-                  isActive={selectedGridIndex === idx}
-                  onClick={() => handleGridSelect(idx)}
-                />
-              ))}
+            <div className="flex h-full  justify-center items-start lg:items-center flex-1 overflow-y-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-3 w-full">
+                {GRID_OPTIONS.map((option, idx) => (
+                  <GridOptionComponent
+                    key={option.size}
+                    option={option}
+                    isActive={selectedGridIndex === idx}
+                    onClick={() => handleGridSelect(idx)}
+                  />
+                ))}
+              </div>
             </div>
           ) : (
             <CustomGridMaker

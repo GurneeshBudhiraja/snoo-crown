@@ -2,22 +2,25 @@ import IconButton from './IconButton';
 import { BackArrowIcon, HomeIcon, MuteSoundIcon, SpeakerIcon } from '../assets/assets';
 import useApplicationContext from '../hooks/useApplicationContext';
 import useSound from '../hooks/useSound';
+import { cn } from '../util';
 
 function GameOptionsHeader({
   showSoundButton = false,
   showHomeButton = false,
   showBackButton = false,
   onBackButtonClick,
+  className,
 }: {
   showSoundButton?: boolean;
   showHomeButton?: boolean;
   showBackButton?: boolean;
   onBackButtonClick?: () => void;
+  className?: string;
 }) {
   const { setCurrentPage } = useApplicationContext();
   const { isGameThemeSongPlaying, toggleGameThemeSong, playButtonClickSound } = useSound();
   return (
-    <div className="absolute top-2 left-2 flex flex-col gap-2">
+    <div className={cn("absolute top-2 left-2 flex flex-col gap-2", className)}>
       {showBackButton && (
         <IconButton
           imageClassName="w-auto h-8 2xs:h-10 object-contain"
