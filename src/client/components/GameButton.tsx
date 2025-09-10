@@ -1,3 +1,4 @@
+import { LoaderCircleIcon } from 'lucide-react';
 import useSound from '../hooks/useSound';
 import { cn } from '../util';
 
@@ -6,6 +7,7 @@ export type GameButtonProps = {
   onClick?: (() => void) | null;
   className?: string;
   disabled?: boolean;
+  loading?: boolean;
 };
 
 export default function GameButton({
@@ -13,6 +15,7 @@ export default function GameButton({
   onClick,
   className = '',
   disabled = false,
+  loading = false,
 }: GameButtonProps) {
   const { playButtonClickSound } = useSound();
   const handleClick = async () => {
@@ -27,25 +30,31 @@ export default function GameButton({
       <button
         type="button"
         className={cn(
-          // layout & sizing
-          'relative max-w-2xs w-full p-2 rounded-md',
-          // typography
+          'relative max-w-2xs w-full p-2 rounded-md flex items-center justify-center',
           'text-2xl tracking-wide font-bold font-ibm',
-          // borders
           'border-4 border-black',
-          // shadows
-          'shadow-game-button active:shadow-none',
-          // transitions & animation
-          'transition duration-75 ease-linear active:scale-95 active:translate-y-1 active:translate-x-3',
-          // state & accessibility
-          'focus:outline-none focus-visible:ring-4 focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream',
-          'disabled:cursor-not-allowed cursor-pointer',
+          'shadow-game-button',
+          'transition duration-75 ease-linear',
+          'focus:outline-none',
+          !disabled && [
+            'active:shadow-none',
+            'active:scale-95 active:translate-y-1 active:translate-x-3',
+            'focus-visible:ring-4 focus-visible:ring-game-dark focus-visible:ring-offset-2 focus-visible:ring-offset-game-cream',
+            'cursor-pointer',
+          ],
+          disabled && ['opacity-50', 'cursor-not-allowed'],
           className
         )}
         onClick={handleClick}
         disabled={disabled}
       >
-        <span>{text}</span>
+        <span>
+          {loading ? (
+            <LoaderCircleIcon className="animate-spin h-8 text-game-dark" strokeWidth={4} />
+          ) : (
+            text
+          )}
+        </span>
       </button>
     </>
   );

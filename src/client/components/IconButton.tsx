@@ -5,11 +5,13 @@ function IconButton({
   onClick,
   altText,
   className,
+  imageClassName,
 }: {
   icon: string;
   onClick?: () => void;
   altText?: string;
   className?: string;
+  imageClassName?: string;
 }) {
   return (
     <>
@@ -20,7 +22,7 @@ function IconButton({
         )}
         onClick={onClick}
       >
-        <img src={icon} alt={altText ?? icon} />
+        <img src={icon} alt={altText ?? icon} className={imageClassName} />
       </button>
     </>
   );

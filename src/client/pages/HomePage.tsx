@@ -15,6 +15,7 @@ function HomePage() {
     {
       text: 'Create And Share',
       className: 'bg-game-sky hover:bg-game-sky/85',
+      onClick: () => setCurrentPage('createAndShare'),
     },
     // Leaderboard
     {
@@ -32,7 +33,7 @@ function HomePage() {
   ];
 
   return (
-    <div className="h-full w-full relative text-gray-800 p-10 px-4 2xs:px-0 flex overflow-clip">
+    <div className="h-full w-full relative text-gray-800 p-10 px-4 2xs:px-0 flex overflow-clip polka-dot-dark">
       {/* Image of Snoo holding the welcome board */}
       <AnimatePresence>
         <SnooCrownBoardImage />

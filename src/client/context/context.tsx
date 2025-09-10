@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
-export type ApplicationPage = 'home' | 'rules' | 'leaderboard';
+export type ApplicationPage = 'home' | 'rules' | 'leaderboard' | 'createAndShare';
 
 export type ApplicationContextType = {
   currentPage: ApplicationPage;

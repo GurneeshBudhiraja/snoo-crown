@@ -30,7 +30,7 @@ const rules: React.ReactNode[] = [
 const RulesPage = () => {
   const { setCurrentPage } = useApplicationContext();
   return (
-    <div className="fixed inset-0 flex flex-col bg-game-cream p-0 m-0 z-10 rounded-lg overflow-clip">
+    <div className="fixed inset-0 flex flex-col bg-game-cream p-0 m-0 z-10 rounded-lg overflow-clip ">
       <AnimatePresence>
         <SnooRulesImage />
       </AnimatePresence>

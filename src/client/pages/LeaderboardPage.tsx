@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { GameOptionsHeader, SnooLeaderboardImage } from '../components';
-import useApplicationContext from '../hooks/useApplicationContext';
 
 export type LeaderboardStats = {
   userName: string;

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 function useSound() {
   const themeSongRef = useRef<HTMLAudioElement | null>(null);
   const clickSoundRef = useRef<HTMLAudioElement | null>(null);
+  const pingSoundRef = useRef<HTMLAudioElement | null>(null);
   const [isGameThemeSongPlaying, setIsGameThemeSongPlaying] = useState(false);
 
   useEffect(() => {
@@ -14,6 +15,10 @@ function useSound() {
     // Initialize button click sound
     clickSoundRef.current = new Audio('/sounds/button-click.mp3');
     clickSoundRef.current.volume = 0.5;
+
+    // Initialize ping sound
+    pingSoundRef.current = new Audio('/sounds/ping.mp3');
+    pingSoundRef.current.volume = 0.8;
 
     // Cleanup function
     return () => {
@@ -30,6 +35,11 @@ function useSound() {
       if (clickSoundRef.current) {
         clickSoundRef.current.pause();
         clickSoundRef.current = null;
+      }
+      // Reset the ping sound ref
+      if (pingSoundRef.current) {
+        pingSoundRef.current.pause();
+        pingSoundRef.current = null;
       }
     };
   }, []);
@@ -77,6 +87,13 @@ function useSound() {
     }
   }, []);
 
+  const playPingSound = useCallback(async () => {
+    if (pingSoundRef.current) {
+      pingSoundRef.current.currentTime = 0;
+      await pingSoundRef.current.play();
+    }
+  }, []);
+
   return {
     playButtonClickSound,
     isGameThemeSongPlaying,
@@ -84,6 +101,7 @@ function useSound() {
     playGameThemeSong,
     stopGameThemeSong,
     toggleGameThemeSong,
+    playPingSound,
   };
 }
 

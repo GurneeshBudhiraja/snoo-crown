@@ -78,11 +78,51 @@
   }
   body {
     @apply bg-game-cream font-game-ibm;
+
   }
 }
 
 @layer utilities {
   .game-button-border {
     @apply border-4 border-black rounded-md;
+  }
+  .polka-dot-light {
+    background-image: radial-gradient(
+      circle at center,
+      var(--color-game-cream) 1px,
+      transparent 1px
+    );
+    background-size: 18px 18px;
+  }
+  .polka-dot-dark {
+    background-image: radial-gradient(
+      circle at center,
+      var(--color-game-dark) 1px,
+      transparent 1px
+    );
+    background-size: 18px 18px;
+  }
+  
+  .scrollable-stable {
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    scrollbar-color: var(--color-game-dark) var(--color-game-cream);
+    -ms-overflow-style: auto;
+  }
+  .scrollable-stable::-webkit-scrollbar {
+    width: 10px;
+    background: var(--color-game-cream);
+    border-radius: 8px;
+  }
+  .scrollable-stable::-webkit-scrollbar-thumb {
+    background: var(--color-game-dark);
+    border-radius: 8px;
+    border: 2px solid var(--color-game-cream);
+  }
+  .scrollable-stable::-webkit-scrollbar-thumb:hover {
+    background: var(--color-game-green);
+  }
+  .scrollable-stable::-webkit-scrollbar-corner {
+    background: var(--color-game-cream);
   }
 }
