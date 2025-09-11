@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { clearLeaderboard, getLeaderboard, upsertLeaderboard } from '../controllers/app.controller';
-import { context, reddit } from '@devvit/web/server';
-import { appendPostType, getPostType } from '../utils';
+import { context, reddit, redis } from '@devvit/web/server';
+import { appendPostType, getPostType, getQuizOfTheDay } from '../utils';
+import { redisKeys } from '../constants';
 
 const router = Router();
 
@@ -93,6 +94,50 @@ router.post('/post/get-post-type', async (_, res) => {
       success: false,
       data: '',
       message: 'Failed to get post type',
+    });
+  }
+});
+
+// Gets the quiz of the day
+router.post('/post/get-quiz-otd', async (_, res) => {
+  try {
+    // Gets the user id
+    const userId = context.userId;
+    if (!userId) {
+      throw new Error('userId is required');
+    }
+    // TODO: verify whehter the user could get this quiz or already solved it
+    const quizResponse = await getQuizOfTheDay(userId);
+    res.status(200).json({
+      success: true,
+      ...quizResponse,
+    });
+  } catch (error) {
+    console.log('Error getting quiz of the day', (error as Error).message);
+    res.status(400).json({
+      success: false,
+      data: '',
+      alreadySolved: false,
+      message: 'Failed to get quiz of the day',
+    });
+  }
+});
+
+router.get('/get-qotd-info', async (_, res) => {
+  try {
+    const quizResponse = (await redis.get(redisKeys.quizOfTheDay)) as string;
+    const usersRepsonse = (await redis.get(redisKeys.usersSolvedQOTD)) as string;
+    res.status(200).json({
+      success: true,
+      ...JSON.parse(quizResponse),
+      ...JSON.parse(usersRepsonse),
+    });
+  } catch (error) {
+    console.log('Error getting quiz of the day info', (error as Error).message);
+    res.status(400).json({
+      success: false,
+      data: '',
+      message: 'Failed to get quiz of the day info',
     });
   }
 });

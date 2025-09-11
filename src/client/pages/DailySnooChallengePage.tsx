@@ -66,7 +66,7 @@ function DailySnooChallengePage() {
       {!showGiveUpModal && gameStarted && (
         <div>
           {/* Timer */}
-          <GameTimer isActive={gameStarted} />
+          <GameTimer isActive={gameStarted} gameCompleted={showCompletionMessage} />
 
           {/* Grid */}
           {isLoading ? (

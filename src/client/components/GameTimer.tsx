@@ -8,10 +8,15 @@ type TimerState = {
 
 type GameTimerProps = {
   isActive?: boolean;
+  gameCompleted?: boolean;
   onTimeUpdate?: (time: TimerState) => void;
 };
 
-export default function GameTimer({ isActive = true, onTimeUpdate }: GameTimerProps) {
+export default function GameTimer({
+  isActive = true,
+  gameCompleted = false,
+  onTimeUpdate,
+}: GameTimerProps) {
   const [timer, setTimer] = useState<TimerState>({
     hours: 0,
     minutes: 0,
@@ -20,7 +25,7 @@ export default function GameTimer({ isActive = true, onTimeUpdate }: GameTimerPr
 
   // Updates the timer every second
   useEffect(() => {
-    if (!isActive) return;
+    if (!isActive || gameCompleted) return;
 
     const interval = setInterval(() => {
       setTimer((prev) => {
@@ -39,7 +44,7 @@ export default function GameTimer({ isActive = true, onTimeUpdate }: GameTimerPr
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isActive]);
+  }, [isActive, gameCompleted]);
 
   // Notify parent of time updates
   useEffect(() => {
@@ -49,7 +54,9 @@ export default function GameTimer({ isActive = true, onTimeUpdate }: GameTimerPr
   }, [timer, onTimeUpdate]);
 
   return (
-    <div className="fixed top-2 right-5 text-2xl flex justify-center items-center gap-0.5 text-game-dark bg-game-cream border-4 border-game-dark rounded-full p-1 px-3">
+    <div
+      className={`fixed top-2 right-5 text-2xl flex justify-center items-center gap-0.5 text-game-dark border-4 border-game-dark rounded-full p-1 px-3 bg-game-bright-yellow`}
+    >
       <span>{timer.hours.toString().padStart(2, '0')}</span>:
       <span>{timer.minutes.toString().padStart(2, '0')}</span>:
       <span>{timer.seconds.toString().padStart(2, '0')}</span>
