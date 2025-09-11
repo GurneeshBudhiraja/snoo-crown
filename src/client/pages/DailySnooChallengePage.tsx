@@ -23,7 +23,7 @@ function DailySnooChallengePage() {
   const { playPingSound } = useSound();
 
   // Use custom hooks for game data and validation
-  const { gameData, isLoading } = useGameData();
+  const { gameData, isLoading, error } = useGameData();
   const { validationResult, showCompletionMessage, validateGameState, resetValidation } =
     useGameValidation({
       gridSize: gameData.gridSize,
@@ -65,33 +65,61 @@ function DailySnooChallengePage() {
 
       {!showGiveUpModal && gameStarted && (
         <div>
-          {/* Timer */}
-          <GameTimer isActive={gameStarted} gameCompleted={showCompletionMessage} />
+          {/* Loading state */}
+          {isLoading && <ApplicationLoadingPage />}
 
-          {/* Grid */}
-          {isLoading ? (
-            <ApplicationLoadingPage />
-          ) : (
-            <GameGrid
-              gridSize={gameData.gridSize}
-              cellColors={gameData.cellColors}
-              onCellClick={() => {
-                void playPingSound();
-              }}
-              validationResult={validationResult}
-              onValidationRequest={validateGameState}
-            />
+          {/* Error state */}
+          {!isLoading && error && (
+            <div className="flex-1 w-full flex flex-col items-center justify-center">
+              <div className="text-2xl font-bold text-red-600">Error</div>
+              <div className="text-lg text-center mb-4">{error}</div>
+              <GameButton onClick={() => window.location.reload()} text="Try Again" />
+            </div>
           )}
 
-          {/* Game Completion Modal */}
-          <GameCompletionModal
-            isOpen={showCompletionMessage}
-            completionMessage={validationResult?.completionMessage || ''}
-            onPlayAgain={() => {
-              resetValidation();
-            }}
-            onBackToHome={() => setCurrentPage('home')}
-          />
+          {/* Already solved state */}
+          {!isLoading && !error && gameData.alreadySolved && (
+            <div className="flex-1 w-full flex flex-col items-center justify-center">
+              <div className="text-2xl font-bold text-green-600">Already Completed!</div>
+              <div className="text-lg text-center mb-2">{gameData.message}</div>
+              {gameData.timeRemaining && gameData.timeRemaining > 0 && (
+                <div className="text-md text-gray-600 mb-4">
+                  Next challenge in: {Math.floor(gameData.timeRemaining / 60)}m{' '}
+                  {gameData.timeRemaining % 60}s
+                </div>
+              )}
+              <GameButton onClick={() => setCurrentPage('home')} text="Back to Home" />
+            </div>
+          )}
+
+          {/* Valid puzzle state */}
+          {!isLoading && !error && !gameData.alreadySolved && gameData.gridSize > 0 && (
+            <>
+              {/* Timer */}
+              <GameTimer isActive={gameStarted} gameCompleted={showCompletionMessage} />
+
+              {/* Grid */}
+              <GameGrid
+                gridSize={gameData.gridSize}
+                cellColors={gameData.cellColors}
+                onCellClick={() => {
+                  void playPingSound();
+                }}
+                validationResult={validationResult}
+                onValidationRequest={validateGameState}
+              />
+
+              {/* Game Completion Modal */}
+              <GameCompletionModal
+                isOpen={showCompletionMessage}
+                completionMessage={validationResult?.completionMessage || ''}
+                onPlayAgain={() => {
+                  resetValidation();
+                }}
+                onBackToHome={() => setCurrentPage('home')}
+              />
+            </>
+          )}
         </div>
       )}
     </div>
