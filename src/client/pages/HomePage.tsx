@@ -8,22 +8,23 @@ function HomePage() {
   const { setCurrentPage, isPostLoading, isCustomPost } = useApplicationContext();
   const MENU_OPTIONS: GameButtonProps[] = [
     // Play custom post
-    {
-      text: 'Play Custom Post',
-      className: 'bg-game-light hover:bg-game-light/85',
-      forCustomPost: isCustomPost,
-    },
+    // {
+    //   text: 'Play Custom Post',
+    //   className: 'bg-game-light hover:bg-game-light/85',
+    //   forCustomPost: isCustomPost,
+    // },
     // Daily Snoo Challenge
     {
       text: 'Daily Snoo Challenge',
       className: 'bg-game-red hover:bg-game-red/85',
     },
     // Create And Share
-    {
-      text: 'Create And Share',
-      className: 'bg-game-sky hover:bg-game-sky/85',
-      onClick: () => setCurrentPage('createAndShare'),
-    },
+    // {
+    //   text: 'Create And Share',
+    //   className: 'bg-game-sky hover:bg-game-sky/85',
+    //   onClick: () => setCurrentPage('createAndShare'),
+    //   forCustomPost: !isCustomPost,
+    // },
     // Leaderboard
     {
       text: 'Leaderboard',

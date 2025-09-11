@@ -4,6 +4,7 @@ import { useState } from 'react';
 import useSound from '../hooks/useSound';
 import { Snoo4x4, Snoo5x5, Snoo6x6, Snoo7x7 } from '../assets/assets';
 import { CellColor } from '../components/CustomGridMaker';
+import { context } from '@devvit/web/client';
 
 export type GridOption = {
   size: number;
@@ -176,10 +177,30 @@ function CreateAndSharePage() {
         {currentStepIndex !== 0 && (
           <GameButton
             text="Share Grid"
-            disabled={!isAllCellsFilled}
-            onClick={() => {
+            // disabled={!isAllCellsFilled}
+            onClick={async () => {
               console.log('Sharing the grid');
               console.log(cellColors);
+              const response = await fetch('/api/post/create/custom', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+              type CustomPostResponse =
+                | { success: true; navigateTo: string }
+                | { success: false; message: string };
+
+              const data: CustomPostResponse = await response.json();
+
+              if (data.success) {
+                window.location.href = data.navigateTo;
+              } else {
+                console.log('Failed to create custom post');
+                console.log(data.message);
+              }
+              console.log('Response from share grid custom repsonse');
+              console.log(data);
             }}
             // className="rounded-r-3xl"
             className="w-full bg-game-cream hover:bg-game-cream/85 disabled:hover:bg-game-cream"

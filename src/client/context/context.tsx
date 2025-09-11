@@ -26,18 +26,44 @@ export default function ApplicationContextProvider({ children }: { children: Rea
   const [currentPage, setCurrentPage] = useState<ApplicationPage>('home');
   const [isCustomPost, setIsCustomPost] = useState<boolean>(false);
   const [isPostLoading, setIsPostLoading] = useState<boolean>(true);
-  const PAUSE_TIME = 100;
 
   useEffect(() => {
-    async function pauseAPI() {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(true);
-        }, PAUSE_TIME);
-      });
-      setIsPostLoading(false);
+    async function getPostType() {
+      try {
+        const response = await fetch('/api/post/get-post-type', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = (await response.json()) as
+          | {
+              success: true;
+              data: 'custom' | 'regular';
+              message: string;
+            }
+          | {
+              success: false;
+              message: string;
+              data: '';
+            };
+        if (!data.success) {
+          throw new Error(data.message);
+        }
+        const { data: postType } = data;
+        console.log('Is it a custom post');
+        console.log(postType === 'custom');
+        setIsCustomPost(postType === 'custom');
+      } catch (error) {
+        console.log('Error getting type of the post');
+        setIsCustomPost(false);
+        return;
+      } finally {
+        setIsPostLoading(false);
+      }
     }
-    void pauseAPI();
+
+    void getPostType();
   }, []);
   return (
     <ApplicationContext.Provider

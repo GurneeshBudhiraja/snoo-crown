@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { createPost } from '../core/post';
 import { context, reddit } from '@devvit/web/server';
+import { appendPostType, getPostType } from '../utils';
 
 const router = Router();
 
@@ -20,6 +21,7 @@ router.post('/on-app-install', async (_req, res): Promise<void> => {
   }
 });
 
+// This is used to create a regular post
 router.post('/menu/post-create', async (_req, res): Promise<void> => {
   try {
     const post = await reddit.submitCustomPost({
@@ -32,14 +34,16 @@ router.post('/menu/post-create', async (_req, res): Promise<void> => {
         heading: "Snoo's Crown",
       },
     });
-
-    // const post = await createPost();
-
+    const response = await appendPostType(post.id, 'regular');
+    if (!response) {
+      await reddit.remove(post.id, false);
+      throw new Error('Failed to append post type');
+    }
     res.json({
       navigateTo: `https://reddit.com/r/${context.subredditName}/comments/${post.id}`,
     });
   } catch (error) {
-    console.error(`Error creating post: ${error}`);
+    console.error(`Error creating post: ${(error as Error).message}`);
     res.status(400).json({
       status: 'error',
       message: 'Failed to create post',
