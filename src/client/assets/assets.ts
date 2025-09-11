@@ -10,9 +10,9 @@ export { default as SnooExperimenting } from './snoo-experimenting.png';
 export { default as Snoo4x4 } from './snoo-4x4.png';
 export { default as Snoo5x5 } from './snoo-5x5.png';
 export { default as Snoo6x6 } from './snoo-6x6.png';
-export {default as Snoo7x7} from './snoo-7x7.png';
-export {default as Snoo8x8} from './snoo-8x8.png';
-export {default as Snoo9x9} from './snoo-9x9.png';
+export { default as Snoo7x7 } from './snoo-7x7.png';
+export { default as Snoo8x8 } from './snoo-8x8.png';
+export { default as Snoo9x9 } from './snoo-9x9.png';
 
 const SnooFaceSVG = './snoo-face.svg';
 export { SnooFaceSVG };

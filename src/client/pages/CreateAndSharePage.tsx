@@ -181,6 +181,7 @@ function CreateAndSharePage() {
             onClick={async () => {
               console.log('Sharing the grid');
               console.log(cellColors);
+              return;
               const response = await fetch('/api/post/create/custom', {
                 method: 'POST',
                 headers: {

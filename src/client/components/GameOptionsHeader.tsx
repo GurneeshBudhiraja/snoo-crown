@@ -10,21 +10,23 @@ function GameOptionsHeader({
   showBackButton = false,
   onBackButtonClick,
   className,
+  onHomeButtonClick,
 }: {
   showSoundButton?: boolean;
   showHomeButton?: boolean;
   showBackButton?: boolean;
   onBackButtonClick?: () => void;
   className?: string;
+  onHomeButtonClick?: () => void;
 }) {
   const { setCurrentPage } = useApplicationContext();
   const { isGameThemeSongPlaying, toggleGameThemeSong, playButtonClickSound } = useSound();
   return (
-    <div className={cn("absolute top-2 left-2 flex flex-col gap-2", className)}>
+    <div className={cn('absolute top-2 left-2 flex flex-col gap-2', className)}>
       {showBackButton && (
         <IconButton
           imageClassName="w-auto h-8 2xs:h-10 object-contain"
-          className='flex items-center justify-center'
+          className="flex items-center justify-center"
           icon={BackArrowIcon}
           onClick={() => {
             void playButtonClickSound();
@@ -40,7 +42,11 @@ function GameOptionsHeader({
           icon={HomeIcon}
           onClick={() => {
             void playButtonClickSound();
-            setCurrentPage('home');
+            if (onHomeButtonClick) {
+              onHomeButtonClick();
+            } else {
+              setCurrentPage('home');
+            }
           }}
           altText="Home"
         />

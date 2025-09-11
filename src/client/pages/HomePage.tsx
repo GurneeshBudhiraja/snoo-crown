@@ -17,14 +17,15 @@ function HomePage() {
     {
       text: 'Daily Snoo Challenge',
       className: 'bg-game-red hover:bg-game-red/85',
+      onClick: () => setCurrentPage('dailySnooChallenge'),
     },
     // Create And Share
-    // {
-    //   text: 'Create And Share',
-    //   className: 'bg-game-sky hover:bg-game-sky/85',
-    //   onClick: () => setCurrentPage('createAndShare'),
-    //   forCustomPost: !isCustomPost,
-    // },
+    {
+      text: 'Create And Share',
+      className: 'bg-game-sky hover:bg-game-sky/85',
+      onClick: () => setCurrentPage('createAndShare'),
+      forCustomPost: !isCustomPost,
+    },
     // Leaderboard
     {
       text: 'Leaderboard',

@@ -4,6 +4,7 @@ import {
   RulesPage,
   CreateAndSharePage,
   ApplicationLoadingPage,
+  DailySnooChallengePage,
 } from './pages/page';
 import { AnimatePresence, motion } from 'motion/react';
 import useApplicationContext from './hooks/useApplicationContext';
@@ -22,8 +23,12 @@ export const App = () => {
         return <LeaderboardPage />;
       case 'createAndShare':
         return <CreateAndSharePage />;
-      default:
-        return null;
+      case 'dailySnooChallenge':
+        return <DailySnooChallengePage />;
+      default: {
+        const _exhaustiveCheck: never = currentPage;
+        throw new Error(`Unhandled page: ${_exhaustiveCheck}`);
+      }
     }
   };
 
@@ -55,7 +60,9 @@ export const App = () => {
               <AnimatePresence>
                 {currentPage !== 'home' && (
                   <MotionAnimationComponentWrapper key={currentPage}>
-                    {renderCurrentPage(currentPage)}
+                    <div className="fixed inset-0 flex flex-col bg-game-cream p-0 m-0 z-10 rounded-lg overflow-clip ">
+                      {renderCurrentPage(currentPage)}
+                    </div>
                   </MotionAnimationComponentWrapper>
                 )}
               </AnimatePresence>

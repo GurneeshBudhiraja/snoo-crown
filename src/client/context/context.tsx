@@ -1,6 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-export type ApplicationPage = 'home' | 'rules' | 'leaderboard' | 'createAndShare';
+export type ApplicationPage =
+  | 'home'
+  | 'rules'
+  | 'leaderboard'
+  | 'createAndShare'
+  | 'dailySnooChallenge';
 
 export type ApplicationContextType = {
   currentPage: ApplicationPage;
