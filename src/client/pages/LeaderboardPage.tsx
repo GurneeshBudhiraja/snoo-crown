@@ -9,17 +9,14 @@ import { Crown1, Crown2, Crown3 } from '../assets/assets';
 import { Delete } from 'lucide-react';
 
 function LeaderboardPage() {
-  const { leaderboardData, currentUserId, isLoading, error, deleteLeaderboard } = useLeaderboard();
+  const {
+    leaderboardData,
+    currentUserId,
+    isLoading,
+    error,
+    deleteLeaderboard: _deleteLeaderboard,
+  } = useLeaderboard();
   const { setCurrentPage } = useContext(ApplicationContext);
-
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -77,14 +74,15 @@ function LeaderboardPage() {
       {!isLoading && !error && leaderboardData.length > 0 && (
         <div className="flex-1 w-full flex flex-col items-center gap-4 p-4 sm:p-8 min-h-0 font-game">
           <div className="text-center p-2 rounded-md game-button-border text-2xl xs:text-3xl font-bold text-game-black bg-game-pale-yellow font-game-ibm tracking-wide mt-4 flex-shrink-0">
-            <div
+            {/* NOTE: FOR DEVELOPMENT ONLY */}
+            {/* <div
               className="absolute top-0 right-0 bg-red-600 p-2 rounded-md"
               onClick={() => {
-                void deleteLeaderboard();
+                void _deleteLeaderboard();
               }}
             >
               <Delete />
-            </div>
+            </div> */}
             Leaderboard
           </div>
           <div className="w-full max-w-sm mx-auto flex-1 min-h-0 z-10 scrollable-stable">

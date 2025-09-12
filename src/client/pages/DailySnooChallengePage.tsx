@@ -23,6 +23,7 @@ function DailySnooChallengePage() {
   const [currentTime, setCurrentTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const [hasInitialPenaltyApplied, setHasInitialPenaltyApplied] = useState(false);
   const [hasCompletionBonusApplied, setHasCompletionBonusApplied] = useState(false);
+  const [liveTimeRemaining, setLiveTimeRemaining] = useState<number | null>(null);
 
   const { setCurrentPage } = useContext(ApplicationContext);
   const { playPingSound } = useSound();
@@ -47,6 +48,11 @@ function DailySnooChallengePage() {
     },
     []
   );
+
+  // Get the current time remaining (live or static)
+  const getCurrentTimeRemaining = useCallback(() => {
+    return liveTimeRemaining !== null ? liveTimeRemaining : gameData.timeRemaining;
+  }, [liveTimeRemaining, gameData.timeRemaining]);
 
   // Apply initial penalty when game starts
   useEffect(() => {
@@ -104,6 +110,31 @@ function DailySnooChallengePage() {
     getTotalSeconds,
     upsertLeaderboard,
   ]);
+
+  // Initialize and update live time remaining countdown
+  useEffect(() => {
+    if (gameData.timeRemaining && gameData.alreadySolved) {
+      setLiveTimeRemaining(gameData.timeRemaining);
+    }
+  }, [gameData.timeRemaining, gameData.alreadySolved]);
+
+  // Real-time countdown timer
+  useEffect(() => {
+    if (liveTimeRemaining !== null && liveTimeRemaining > 0) {
+      const interval = setInterval(() => {
+        setLiveTimeRemaining((prev) => {
+          if (prev === null || prev <= 1) {
+            // When timer reaches 0, refresh the page to get new challenge
+            window.location.reload();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [liveTimeRemaining]);
 
   // Handle give up action
   const handleGiveUp = useCallback(() => {
@@ -187,17 +218,17 @@ function DailySnooChallengePage() {
               <div className="text-2xl font-bold text-game-dark bg-game-cream">
                 Already Completed!
               </div>
-              {gameData.timeRemaining && (
+              {getCurrentTimeRemaining() && (
                 <div className="text-game-dark-gray font-game-ibm bg-game-cream">
-                  {typeof gameData.timeRemaining === 'number' && (
+                  {typeof getCurrentTimeRemaining() === 'number' && (
                     <>
                       Next challenge in:{' '}
                       <span className="font-semibold text-game-dark">
-                        {Math.floor(gameData.timeRemaining / 3600) > 0 && (
-                          <>{Math.floor(gameData.timeRemaining / 3600)}h </>
+                        {Math.floor(getCurrentTimeRemaining()! / 3600) > 0 && (
+                          <>{Math.floor(getCurrentTimeRemaining()! / 3600)}h </>
                         )}
-                        {Math.floor((gameData.timeRemaining % 3600) / 60)}m{' '}
-                        {gameData.timeRemaining % 60}s
+                        {Math.floor((getCurrentTimeRemaining()! % 3600) / 60)}m{' '}
+                        {getCurrentTimeRemaining()! % 60}s
                       </span>
                     </>
                   )}

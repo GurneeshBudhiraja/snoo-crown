@@ -113,6 +113,7 @@ router.get('/get-qotd-info', async (_, res) => {
   }
 });
 
+// NOTE: the route is only used in DEVELOPMENT
 router.delete('/post/clear', async (_, res) => {
   try {
     await redis.del(redisKeys.quizOfTheDay);
@@ -263,6 +264,7 @@ router.post('/leaderboard/upsert', async (req, res) => {
   }
 });
 
+// NOTE: the route is only used in DEVELOPMENT
 router.delete('/leaderboard', async (_, res) => {
   try {
     console.log('🚧 Deleting the leaderboard');

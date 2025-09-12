@@ -98,6 +98,7 @@ export function useLeaderboard() {
     }
   };
 
+  // NOTE: the route is only used in DEVELOPMENT
   const deleteLeaderboard = async () => {
     try {
       const response = await fetch('/api/leaderboard', {
