@@ -29,7 +29,6 @@ router.post('/menu/post-create', async (_req, res): Promise<void> => {
       title: "Snoo's Crown",
       splash: {
         appDisplayName: "Snoo's Crown",
-        backgroundUri: '',
         buttonLabel: "Welcome to Snoo's Crown",
         heading: "Snoo's Crown",
       },

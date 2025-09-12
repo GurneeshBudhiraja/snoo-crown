@@ -13,9 +13,7 @@
     "dir": "dist/server",
     "entry": "index.cjs"
   },
-  "media": {
-    "dir": "src/client/public"
-  },
+  "media": {},
   "menu": {
     "items": [
       {
