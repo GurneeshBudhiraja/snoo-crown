@@ -130,13 +130,14 @@ router.get('/leaderboard', async (_req, res) => {
       });
     }
     const parsedLeaderboard = JSON.parse(leaderboardResponse) as LeaderboardStats[];
-    const filteredLeaderboard = parsedLeaderboard.filter(
-      (item: LeaderboardStats) =>
-        item.subredditId === context.subredditId && item.postId === context.postId
-    );
+    
+    // const filteredLeaderboard = parsedLeaderboard.filter(
+    //   (item: LeaderboardStats) =>
+    //     item.subredditId === context.subredditId && item.postId === context.postId
+    // );
     res.status(200).json({
       success: true,
-      data: filteredLeaderboard,
+      data: parsedLeaderboard,
       currentUserId: context.userId,
       message: 'Leaderboard stats fetched successfully',
     });

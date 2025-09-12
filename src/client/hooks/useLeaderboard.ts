@@ -18,6 +18,56 @@ export function useLeaderboard() {
     try {
       setIsLoading(true);
       setError(null);
+      // const mockData = [
+      //   {
+      //     userId: 'user1',
+      //     userName: 'SecurityHappy6608',
+      //     score: 100,
+      //     timeTaken: 100,
+      //     date: Date.now(),
+      //     postId: 'post1',
+      //     subredditId: 'subreddit1',
+      //   },
+      //   {
+      //     userId: 'user2',
+      //     userName: 'User 2',
+      //     score: 90,
+      //     timeTaken: 90,
+      //     date: Date.now(),
+      //     postId: 'post2',
+      //     subredditId: 'subreddit2',
+      //   },
+      //   {
+      //     userId: 'user3',
+      //     userName: 'User 3',
+      //     score: 80,
+      //     timeTaken: 80,
+      //     date: Date.now(),
+      //     postId: 'post3',
+      //     subredditId: 'subreddit3',
+      //   },
+      //   {
+      //     userId: 'user4',
+      //     userName: 'User 4',
+      //     score: -100,
+      //     timeTaken: 80,
+      //     date: Date.now(),
+      //     postId: 'post3',
+      //     subredditId: 'subreddit3',
+      //   },
+      //   {
+      //     userId: 'user5',
+      //     userName: 'User 5',
+      //     score: 1,
+      //     timeTaken: 80,
+      //     date: Date.now(),
+      //     postId: 'post3',
+      //     subredditId: 'subreddit3',
+      //   },
+      // ] as LeaderboardStats[];
+      // setLeaderboardData(mockData);
+      // setCurrentUserId('user5');
+      // return;
 
       const response = await fetch('/api/leaderboard', {
         method: 'GET',

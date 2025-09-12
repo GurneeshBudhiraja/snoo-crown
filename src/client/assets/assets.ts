@@ -13,6 +13,9 @@ export { default as Snoo6x6 } from './snoo-6x6.png';
 export { default as Snoo7x7 } from './snoo-7x7.png';
 export { default as Snoo8x8 } from './snoo-8x8.png';
 export { default as Snoo9x9 } from './snoo-9x9.png';
+export { default as Crown1 } from './crown-gold.png';
+export { default as Crown2 } from './crown-silver.png';
+export { default as Crown3 } from './crown-bronze.png';
 
 const SnooFaceSVG = './snoo-face.svg';
 export { SnooFaceSVG };
