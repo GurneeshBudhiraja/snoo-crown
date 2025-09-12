@@ -1,12 +1,15 @@
 import { AnimatePresence } from 'motion/react';
 import { GameOptionsHeader, SnooLeaderboardImage, GameButton } from '../components';
 import { useLeaderboard } from '../hooks/useLeaderboard';
-import { LeaderboardStats } from '../../shared/types/api';
 import ApplicationLoadingPage from './ApplicationLoadingPage';
+import { useContext } from 'react';
+import { ApplicationContext } from '../context/context';
+import { cn } from '../util';
 
 function LeaderboardPage() {
   const { leaderboardData, currentUserId, isLoading, error, refetch, deleteLeaderboard } =
     useLeaderboard();
+  const { setCurrentPage } = useContext(ApplicationContext);
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString('en-US', {
@@ -24,117 +27,110 @@ function LeaderboardPage() {
   };
 
   return (
-    <div className="h-full w-full relative text-gray-800 p-4 flex flex-col overflow-hidden polka-dot-dark">
-      <GameOptionsHeader showHomeButton={true} />
+    <div
+      className={cn(
+        'fixed inset-0 flex flex-col bg-game-cream p-0 m-0 z-10 rounded-lg polka-dot-dark overflow-hidden'
+      )}
+    >
+      <GameOptionsHeader showHomeButton={true} className={cn(isLoading && 'z-50')} />
 
       <AnimatePresence>
         <SnooLeaderboardImage />
       </AnimatePresence>
+      {/* Loading State */}
+      {isLoading && <ApplicationLoadingPage />}
 
-      <div className="flex-1 w-full flex flex-col overflow-y-auto gap-4 p-4 sm:p-8">
-        {/* Loading State */}
-        {isLoading && (
-          <div className="flex-1 flex items-center justify-center">
-            <ApplicationLoadingPage />
+      {/* Error State */}
+      {!isLoading && error && (
+        <div className="flex-1 flex flex-col items-center justify-center gap-2">
+          <div className="text-2xl font-bold text-game-dark bg-game-cream">
+            Something went wrong
           </div>
-        )}
+          <GameButton
+            onClick={() => {
+              setCurrentPage('home');
+            }}
+            text="Back to Home"
+            className="bg-game-green"
+          />
+        </div>
+      )}
 
-        {/* Error State */}
-        {!isLoading && error && (
-          <div className="flex-1 flex flex-col items-center justify-center gap-4">
-            <div className="text-2xl font-bold text-red-600">Error</div>
-            <div className="text-lg text-center text-gray-600">{error}</div>
-            <GameButton onClick={refetch} text="Try Again" />
+      {/* No Data State */}
+      {!isLoading && !error && leaderboardData.length === 0 && (
+        <div className="flex-1 flex flex-col items-center justify-center gap-2">
+          <div className="text-2xl font-bold text-game-dark bg-game-cream">
+            No Leaderboard Data Available
           </div>
-        )}
+          <GameButton
+            onClick={() => {
+              setCurrentPage('home');
+            }}
+            text="Back to Home"
+            className="bg-game-green"
+          />
+        </div>
+      )}
 
-        {/* No Data State */}
-        {!isLoading && !error && leaderboardData.length === 0 && (
-          <div className="flex-1 flex flex-col items-center justify-center gap-4">
-            <div className="text-2xl font-bold text-gray-600">No Data Available</div>
-            <div className="text-lg text-center text-gray-500">
-              Be the first to complete today's challenge!
-            </div>
-            <GameButton onClick={refetch} text="Refresh" />
+      {/* Leaderboard Data */}
+      {!isLoading && !error && leaderboardData.length > 0 && (
+        <div className="flex-1 w-full flex flex-col items-center gap-4 p-4 sm:p-8 min-h-0 font-game">
+          <div className="text-center p-2 rounded-md game-button-border text-2xl xs:text-3xl font-bold text-game-black bg-game-pale-yellow font-game-ibm tracking-wide mt-4 flex-shrink-0">
+            Leaderboard
           </div>
-        )}
-
-        {/* Leaderboard Data */}
-        {!isLoading && !error && leaderboardData.length > 0 && (
-          <div className="w-full max-w-4xl mx-auto">
-            <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-4">
-                <h2 className="text-2xl font-bold text-white text-center">
-                  Daily Challenge Leaderboard
-                </h2>
-                <div
-                  onClick={() => {
-                    console.log('🗑️ Deleting the leaderboard');
-                    void deleteLeaderboard();
-                  }}
-                >
-                  Click to clear the leaderboard
-                </div>
-                <p className="text-white/90 text-center mt-1">
-                  {leaderboardData.length} player{leaderboardData.length !== 1 ? 's' : ''} completed
-                  today's challenge
-                </p>
-              </div>
-
-              <div className="p-4">
-                <div className="space-y-2">
-                  {leaderboardData
-                    .sort((a, b) => a.timeTaken - b.timeTaken) // Sort by fastest time
-                    .map((player, index) => (
+          <div className="w-full max-w-sm mx-auto flex-1 min-h-0 z-10 scrollable-stable">
+            <div className="space-y-4 overflow-y-auto max-h-[88%] 2xs:max-h-full focus:outline-none">
+              {leaderboardData
+                // Sort by the fastest time
+                .sort((a, b) => a.timeTaken - b.timeTaken)
+                .map((player, index) => (
+                  <div
+                    key={`${player.userId}-${player.date}`}
+                    className={`flex items-center justify-between p-3 game-button-border transition-all ${
+                      player.userId === currentUserId ? 'bg-game-sky' : 'bg-game-light'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
                       <div
-                        key={`${player.userId}-${player.date}`}
-                        className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all ${
-                          player.userId === currentUserId
-                            ? 'bg-blue-50 border-blue-300 shadow-md'
-                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                        className={`w-10 aspect-square game-button-border flex items-center justify-center font-bold font-game text-sm ${
+                          index === 0
+                            ? 'bg-game-bright-yellow text-game-dark'
+                            : index === 1
+                              ? 'bg-game-gray text-game-dark'
+                              : index === 2
+                                ? 'bg-game-orange text-game-dark'
+                                : 'bg-game-light text-game-dark'
                         }`}
                       >
-                        <div className="flex items-center gap-4">
-                          <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                              index === 0
-                                ? 'bg-yellow-500 text-white'
-                                : index === 1
-                                  ? 'bg-gray-400 text-white'
-                                  : index === 2
-                                    ? 'bg-amber-600 text-white'
-                                    : 'bg-gray-300 text-gray-700'
-                            }`}
-                          >
-                            {index + 1}
-                          </div>
-                          <div>
-                            <div className="font-semibold text-lg">
-                              {player.userName || 'Anonymous'}
-                              {player.userId === currentUserId && (
-                                <span className="text-blue-600 text-sm ml-2">(You)</span>
-                              )}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              Completed on {formatDate(player.date)}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-right">
-                          <div className="font-bold text-lg text-green-600">
-                            {formatTime(player.timeTaken)}
-                          </div>
-                          <div className="text-sm text-gray-500">Score: {player.score}</div>
+                        {index + 1}
+                      </div>
+                      <div>
+                        <div className="font-bold text-lg text-game-dark font-game-ibm">
+                          {player.userName || 'Anonymous'}
+                          {player.userId === currentUserId && (
+                            <span className=" text-sm ml-1 text-game-light font-game">(You)</span>
+                          )}
                         </div>
                       </div>
-                    ))}
-                </div>
-              </div>
+                    </div>
+
+                    <div className="text-right">
+                      <div
+                        className={cn(
+                          'font-bold text-lg  2xs:text-xl text-game-orange font-game',
+                          player.userId === currentUserId && 'text-game-light'
+                        )}
+                      >
+                        {formatTime(player.timeTaken)}
+                      </div>
+                      <div className={cn('text-xs text-game-dark')}>Score: {player.score}</div>
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

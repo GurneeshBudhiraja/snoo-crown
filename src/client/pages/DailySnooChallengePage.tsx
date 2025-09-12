@@ -108,20 +108,29 @@ function DailySnooChallengePage() {
       <GameOptionsHeader
         showHomeButton={true}
         onHomeButtonClick={() => {
-          if (gameStarted) {
+          if (!error && gameStarted) {
             setShowGiveUpModal(true);
           } else {
             setCurrentPage('home');
           }
         }}
       />
-      {showGiveUpModal && (
-        <div className="flex-1 w-full flex flex-col items-center justify-center">
-          <div className="text-2xl font-bold">Give Up?</div>
-          <div className="text-sm text-gray-600 mb-4">You'll keep the -5 point penalty</div>
-          <div className="flex gap-4">
-            <GameButton onClick={() => setShowGiveUpModal(false)} text="No" />
-            <GameButton onClick={handleGiveUp} text={isUpsertLoading ? 'Saving...' : 'Yes'} />
+      {error && showGiveUpModal && (
+        <div className="flex-1 flex flex-col items-center justify-center gap-2">
+          <div className="text-2xl font-bold bg-game-cream">Giving Up Today's Challenge?</div>
+          <div className="flex gap-4 w-full max-w-2xs mx-auto">
+            <GameButton
+              onClick={() => setShowGiveUpModal(false)}
+              text="No"
+              className="bg-game-cream"
+              disabled={isUpsertLoading}
+            />
+            <GameButton
+              onClick={handleGiveUp}
+              disabled={isUpsertLoading}
+              text={isUpsertLoading ? 'Saving...' : 'Yes'}
+              className="bg-game-red text-game-light"
+            />
           </div>
           {upsertError && <div className="text-red-500 text-sm mt-2">Error: {upsertError}</div>}
         </div>
@@ -145,10 +154,17 @@ function DailySnooChallengePage() {
 
           {/* Error state */}
           {!isLoading && error && (
-            <div className="flex-1 w-full flex flex-col items-center justify-center">
-              <div className="text-2xl font-bold text-red-600">Error</div>
-              <div className="text-lg text-center mb-4">{error}</div>
-              <GameButton onClick={() => window.location.reload()} text="Try Again" />
+            <div className="flex-1 flex flex-col items-center justify-center gap-2">
+              <div className="text-2xl font-bold text-game-dark bg-game-cream">
+                Something went wrong
+              </div>
+              <GameButton
+                onClick={() => {
+                  setCurrentPage('home');
+                }}
+                text="Back to Home"
+                className="bg-game-red"
+              />
             </div>
           )}
 
