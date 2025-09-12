@@ -1,5 +1,5 @@
 import { redis } from '@devvit/web/server';
-import { redisKeys } from './constants';
+import { redisKeys, TIME_FOR_QOTD } from './constants';
 
 export async function appendPostType(postId: string, postType: 'custom' | 'regular') {
   try {
@@ -407,28 +407,29 @@ export async function getQuizOfTheDay(userId: string) {
           gridSize,
         })
       );
-      const response = await redis.get(redisKeys.quizOfTheDay);
+      const redisGetResponse = await redis.get(redisKeys.quizOfTheDay);
       console.log('redisKeys.quizOfTheDay');
-      console.log(response);
-      if (!response) {
+      console.log(redisGetResponse);
+      if (!redisGetResponse) {
         throw new Error('Failed to generate quiz of the day');
       }
-      const parsed = JSON.parse(response);
+      const parsed = JSON.parse(redisGetResponse);
       await redis.set(redisKeys.usersSolvedQOTD, JSON.stringify([userId]));
+      const timeRemaining = Math.floor(
+        (parsed.quizGenerateTime + TIME_FOR_QOTD - Date.now()) / 1000
+      );
+      console.log(timeRemaining);
       return {
         success: true,
         cellColors: parsed.cellColors,
         gridSize: parsed.gridSize,
-        timeRemaining: Math.floor((parsed.quizGenerateTime + 60 * 1000 - Date.now()) / 1000),
+        timeRemaining: timeRemaining,
         message: 'New quiz of the day generated',
         alreadySolved: false,
       };
     } else {
       const parsed = JSON.parse(response);
-      // If the quiz has been generated more than 24 hours ago, delete the quiz and generate a new one
-      // if (parsed.quizGenerateTime < Date.now() - 24 * 60 * 60 * 1000) {
-      // TODO: Remove the below in prod and uncomment the above
-      if (parsed.quizGenerateTime < Date.now() - 60 * 1000) {
+      if (Date.now() > parsed.quizGenerateTime + TIME_FOR_QOTD) {
         // Delete the quiz and the users who solved that quiz
         console.log('🗑️ Deleting the quiz of the day and the users who solved that quiz');
         await redis.del(redisKeys.quizOfTheDay);
@@ -446,23 +447,31 @@ export async function getQuizOfTheDay(userId: string) {
 
       if (parsedUsersSolvedQOTD.includes(userId)) {
         console.log('The user has already solved this puzzle');
+        const timeRemaining = Math.floor(
+          (parsed.quizGenerateTime + TIME_FOR_QOTD - Date.now()) / 1000
+        );
+        console.log('Already solved time remaining:', timeRemaining);
         return {
           success: true,
           alreadySolved: true,
           message: 'Already solved the quiz of the day',
-          timeRemaining: Math.floor((parsed.quizGenerateTime + 60 * 1000 - Date.now()) / 1000),
+          timeRemaining: timeRemaining,
         };
       }
       await redis.set(
         redisKeys.usersSolvedQOTD,
         JSON.stringify([...parsedUsersSolvedQOTD, userId])
       );
+      const timeRemaining = Math.floor(
+        (parsed.quizGenerateTime + TIME_FOR_QOTD - Date.now()) / 1000
+      );
+      console.log('Existing quiz time remaining:', timeRemaining);
       return {
         success: true,
         ...parsed,
         alreadySolved: false,
         message: 'Quiz of the day fetched successfully',
-        timeRemaining: Math.floor((parsed.quizGenerateTime + 60 * 1000 - Date.now()) / 1000),
+        timeRemaining: timeRemaining,
       };
     }
   } catch (error) {

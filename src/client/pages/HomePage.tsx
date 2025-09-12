@@ -51,6 +51,21 @@ function HomePage() {
       <GameOptionsHeader showSoundButton={true} />
       {/* menu options */}
       <div className="flex flex-col max-w-sm mx-auto items-center justify-start 2xs:justify-center gap-5  2xs:gap-10 xs:gap-10 sm:gap-6 flex-1 py-1 mt-4 2xs:-mt-16  xs:py-12 sm:-mt-3 lg:py-0 overflow-y-auto">
+        <div
+          onClick={async () => {
+            try {
+              const response = await fetch('/api/post/clear', {
+                method: 'DELETE',
+              });
+              const data = await response.json();
+              console.log('Quiz of the day deleted', data);
+            } catch (error) {
+              console.log('Error deleting quiz of the day', (error as Error).message);
+            }
+          }}
+        >
+          Delete Quiz of the Day
+        </div>
         {MENU_OPTIONS.filter((option) => option.forCustomPost !== false).map((option) => (
           <GameButton
             key={option.text}

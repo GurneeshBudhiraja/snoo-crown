@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { clearLeaderboard, getLeaderboard, upsertLeaderboard } from '../controllers/app.controller';
 import { context, reddit, redis } from '@devvit/web/server';
 import { appendPostType, getPostType, getQuizOfTheDay } from '../utils';
 import { redisKeys } from '../constants';
@@ -11,6 +10,7 @@ const router = Router();
  * Post related routes
  */
 
+// Create custom post
 router.post('/post/create/custom', async (_req, res): Promise<void> => {
   try {
     // Todo: make checks whether the custom grid could be solved or not
@@ -78,7 +78,6 @@ router.post('/post/get-quiz-otd', async (_, res) => {
     if (!userId) {
       throw new Error('userId is required');
     }
-    // TODO: verify whehter the user could get this quiz or already solved it
     const quizResponse = await getQuizOfTheDay(userId);
     res.status(200).json({
       success: true,
@@ -114,6 +113,23 @@ router.get('/get-qotd-info', async (_, res) => {
   }
 });
 
+router.delete('/post/clear', async (_, res) => {
+  try {
+    await redis.del(redisKeys.quizOfTheDay);
+    await redis.del(redisKeys.usersSolvedQOTD);
+    res.status(200).json({
+      success: true,
+      message: 'Quiz of the day deleted successfully',
+    });
+  } catch (error) {
+    console.log('Error deleting quiz of the day', (error as Error).message);
+    res.status(400).json({
+      success: false,
+      message: 'Failed to delete quiz of the day',
+    });
+  }
+});
+
 /**
  * Leaderboard related routes
  */
@@ -130,7 +146,7 @@ router.get('/leaderboard', async (_req, res) => {
       });
     }
     const parsedLeaderboard = JSON.parse(leaderboardResponse) as LeaderboardStats[];
-    
+
     // const filteredLeaderboard = parsedLeaderboard.filter(
     //   (item: LeaderboardStats) =>
     //     item.subredditId === context.subredditId && item.postId === context.postId
